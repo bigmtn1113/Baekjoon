@@ -30,16 +30,9 @@ int DeleteMinHeap() {
 
 	int result = heap[1];
 
-	heap[1] = heap[heap_size];
-	heap[heap_size--] = 0;
-
+	heap[1] = heap[heap_size--];
 	for (int i = 1; i * 2 <= heap_size;) {
 		if (heap[i] < heap[i * 2] && heap[i] < heap[i * 2 + 1]) break;
-
-		if (!heap[i * 2 + 1]) {
-			if (heap[i] < heap[i * 2]) break;
-			else { Swap(heap[i], heap[i * 2]); break; }
-		}
 
 		if (heap[i * 2] > heap[i * 2 + 1]) {
 			Swap(heap[i], heap[i * 2 + 1]);
