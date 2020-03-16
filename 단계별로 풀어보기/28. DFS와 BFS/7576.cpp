@@ -1,6 +1,5 @@
 #include <iostream>
 #include <queue>
-#include <cstring>
 
 using namespace std;
 
@@ -64,8 +63,7 @@ int main() {
 			}
 		}
 
-	// 익은 토마토가 없음
-	if (!tomato_cnt)
+	if (!tomato_cnt)		// 익은 토마토가 없음
 		cout << -1;
 
 	else {
