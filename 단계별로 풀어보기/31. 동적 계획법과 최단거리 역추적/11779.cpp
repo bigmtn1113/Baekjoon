@@ -6,29 +6,29 @@ using namespace std;
 
 vector<pair<int, int>> adj[1001];
 int dist[1001];
-int pre_city[1001];			// ÀÌÀü µµ½Ã
+int pre_city[1001];	// ì´ì „ ë„ì‹œ
 
 void Dijkstra(int begin) {
-	priority_queue<pair<int, int>> pq;		// ¿ì¼±¼øÀ§ Å¥. ±âº»ÀûÀ¸·Ğ Á¦ÀÏ Å« °ªÀÌ topÀÌ±â ¶§¹®¿¡ ÃÖ¼Ú°ªÀÌ topÀÌ·Á¸é -¸¦ ºÙÀÌ°í ³Ö°í »©¾ßÇÔ
-	pq.push({ 0, begin });		// ½ÃÀÛ ÁöÁ¡ Å¥¿¡ ³Ö±â
-	dist[begin] = 0;			// ½ÃÀÛ ÁöÁ¡Àº ºñ¿ëÀÌ 0
+	priority_queue<pair<int, int>> pq;	// ìš°ì„ ìˆœìœ„ í. ê¸°ë³¸ì ìœ¼ë¡  ì œì¼ í° ê°’ì´ topì´ê¸° ë•Œë¬¸ì— ìµœì†Ÿê°’ì´ topì´ë ¤ë©´ -ë¥¼ ë¶™ì´ê³  ë„£ê³  ë¹¼ì•¼í•¨
+	pq.push({ 0, begin });		// ì‹œì‘ ì§€ì  íì— ë„£ê¸°
+	dist[begin] = 0;		// ì‹œì‘ ì§€ì ì€ ë¹„ìš©ì´ 0
 
 	while (!pq.empty()) {
-		int cost = -pq.top().first;		// ÇöÀç ÀÖ´Â µµ½Ã±îÁö ¿À´Âµ¥ µå´Â ºñ¿ë
-		int city = pq.top().second;		// ÇöÀç ÀÖ´Â µµ½Ã
+		int cost = -pq.top().first;	// í˜„ì¬ ìˆëŠ” ë„ì‹œê¹Œì§€ ì˜¤ëŠ”ë° ë“œëŠ” ë¹„ìš©
+		int city = pq.top().second;	// í˜„ì¬ ìˆëŠ” ë„ì‹œ
 		pq.pop();
 
-		if (dist[city] < cost)			// ÇöÀç ÀÖ´Â µµ½Ã±îÁö ¿À´Âµ¥ µå´Â ÃÖ¼Ò ºñ¿ëº¸´Ù cost°¡ Å©¸é ÆĞ½º~
+		if (dist[city] < cost)		// í˜„ì¬ ìˆëŠ” ë„ì‹œê¹Œì§€ ì˜¤ëŠ”ë° ë“œëŠ” ìµœì†Œ ë¹„ìš©ë³´ë‹¤ costê°€ í¬ë©´ íŒ¨ìŠ¤~
 			continue;
 
 		for (int i = 0; i < adj[city].size(); ++i) {
-			int next_city = adj[city][i].first;			// ´ÙÀ½ µµ½Ã
-			int next_cost = adj[city][i].second;		// ´ÙÀ½ µµ½Ã°¡´Âµ¥ µå´Â ºñ¿ë
+			int next_city = adj[city][i].first;		// ë‹¤ìŒ ë„ì‹œ
+			int next_cost = adj[city][i].second;		// ë‹¤ìŒ ë„ì‹œê°€ëŠ”ë° ë“œëŠ” ë¹„ìš©
 
-			if (dist[next_city] > dist[city] + next_cost) {		// ´ÙÀ½ µµ½Ã°¡´Âµ¥ µå´Â ÃÖ¼Ò ºñ¿ëº¸´Ù ÇöÀç ÀÖ´Â µµ½Ã¸¦ °ÅÃÄ°¡´Â ºñ¿ëÀÌ ´õ ÀûÀ»°æ¿ì
+			if (dist[next_city] > dist[city] + next_cost) {		// ë‹¤ìŒ ë„ì‹œê°€ëŠ”ë° ë“œëŠ” ìµœì†Œ ë¹„ìš©ë³´ë‹¤ í˜„ì¬ ìˆëŠ” ë„ì‹œë¥¼ ê±°ì³ê°€ëŠ” ë¹„ìš©ì´ ë” ì ì„ê²½ìš°
 				dist[next_city] = cost + next_cost;
 				pq.push({ -dist[next_city], next_city });
-				pre_city[next_city] = city;						// ´ÙÀ½ µµ½Ã·Î °¡±â Àü¿¡ ÇöÀç ÀÖ´Â µµ½Ã ÀúÀå
+				pre_city[next_city] = city;			// ë‹¤ìŒ ë„ì‹œë¡œ ê°€ê¸° ì „ì— í˜„ì¬ ìˆëŠ” ë„ì‹œ ì €ì¥
 			}
 		}
 
@@ -77,6 +77,6 @@ int main() {
 	}
 
 	cout << cnt << '\n';
-	for (int i = result.size() - 1; i >= 0; --i)		// °Å²Ù·Î Ãâ·Â
+	for (int i = result.size() - 1; i >= 0; --i)	// ê±°ê¾¸ë¡œ ì¶œë ¥
 		cout << result[i] << ' ';
 }
