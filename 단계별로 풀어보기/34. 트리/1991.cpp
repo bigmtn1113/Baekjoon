@@ -7,25 +7,25 @@ char tree[27][2];
 void Preorder(char node) {
 	if (node == '.') return;
 
-	cout << node;					// ·çÆ®
-	Preorder(tree[node - 'A'][0]);	// ¿ÞÂÊ
-	Preorder(tree[node - 'A'][1]);	// ¿À¸¥ÂÊ
+	cout << node;			// ë£¨íŠ¸
+	Preorder(tree[node - 'A'][0]);	// ì™¼ìª½
+	Preorder(tree[node - 'A'][1]);	// ì˜¤ë¥¸ìª½
 }
 
 void Inorder(char node) {
 	if (node == '.') return;
 
-	Inorder(tree[node - 'A'][0]);	// ¿ÞÂÊ
-	cout << node;					// ·çÆ®
-	Inorder(tree[node - 'A'][1]);	// ¿À¸¥ÂÊ
+	Inorder(tree[node - 'A'][0]);	// ì™¼ìª½
+	cout << node;			// ë£¨íŠ¸
+	Inorder(tree[node - 'A'][1]);	// ì˜¤ë¥¸ìª½
 }
 
 void Postorder(char node) {
 	if (node == '.') return;
 
-	Postorder(tree[node - 'A'][0]);	// ¿ÞÂÊ
-	Postorder(tree[node - 'A'][1]);	// ¿À¸¥ÂÊ
-	cout << node;					// ·çÆ®
+	Postorder(tree[node - 'A'][0]);	// ì™¼ìª½
+	Postorder(tree[node - 'A'][1]);	// ì˜¤ë¥¸ìª½
+	cout << node;			// ë£¨íŠ¸
 }
 
 int main() {
@@ -49,7 +49,7 @@ int main() {
 }
 
 /*
-	Dfs·Î Ç®±â
+	Dfsë¡œ í’€ê¸°
 
 	#include <iostream>
 	#include <vector>
