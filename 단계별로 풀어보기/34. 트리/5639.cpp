@@ -1,5 +1,5 @@
 #include <iostream>
-#include <cstdio>		// ÀÔ·ÂÀ» ¾ó¸¶³ª ¹ÞÀ» Áö ¸ð¸£¹Ç·Î scanf»ç¿ë
+#include <cstdio>		// ìž…ë ¥ì„ ì–¼ë§ˆë‚˜ ë°›ì„ ì§€ ëª¨ë¥´ë¯€ë¡œ scanfì‚¬ìš©
 
 using namespace std;
 
@@ -8,39 +8,39 @@ int tree[10001];
 void Postorder(int left, int right) {
 	if (left > right) return;
 
-	int root = left;		// Preorder Æ¯Â¡ »ó ·çÆ®°¡ °¡Àå ¸ÕÀú Ãâ·ÂµÇ¹Ç·Î left(°¡Àå Ã³À½ ÀÎµ¦½º)°¡ ·çÆ®
+	int root = left;		// Preorder íŠ¹ì§• ìƒ ë£¨íŠ¸ê°€ ê°€ìž¥ ë¨¼ì € ì¶œë ¥ë˜ë¯€ë¡œ left(ê°€ìž¥ ì²˜ìŒ ì¸ë±ìŠ¤)ê°€ ë£¨íŠ¸
 	int last = right;
 
-	while (left <= right && tree[root] > tree[++left]);		// ·çÆ®º¸´Ù ÀÛÀº ³ëµåÀÇ °³¼ö ÆÄ¾ÇÇÏ±â
+	while (left <= right && tree[root] > tree[++left]);		// ë£¨íŠ¸ë³´ë‹¤ ìž‘ì€ ë…¸ë“œì˜ ê°œìˆ˜ íŒŒì•…í•˜ê¸°
 
-	Postorder(root + 1, left - 1);		// ¿ÞÂÊ(·çÆ®º¸´Ù ÀÛÀº ³ëµåµé) Å½»ö
-	Postorder(left, last);				// ¿À¸¥ÂÊ(·çÆ®º¸´Ù Å« ³ëµåµé) Å½»ö
-	printf("%d\n", tree[root]);			// ·çÆ® Ãâ·Â
+	Postorder(root + 1, left - 1);		// ì™¼ìª½(ë£¨íŠ¸ë³´ë‹¤ ìž‘ì€ ë…¸ë“œë“¤) íƒìƒ‰
+	Postorder(left, last);			// ì˜¤ë¥¸ìª½(ë£¨íŠ¸ë³´ë‹¤ í° ë…¸ë“œë“¤) íƒìƒ‰
+	printf("%d\n", tree[root]);		// ë£¨íŠ¸ ì¶œë ¥
 }
 
 int main() {
 	int node_cnt = 0;
 
-	while (scanf_s("%d", &tree[++node_cnt]) > 0);		// EOF(-1)°¡ ¹ß»ýÇÏ±â Àü±îÁö ¹«ÇÑÁ¤ ÀÔ·Â ¹Þ±â
+	while (scanf_s("%d", &tree[++node_cnt]) > 0);		// EOF(-1)ê°€ ë°œìƒí•˜ê¸° ì „ê¹Œì§€ ë¬´í•œì • ìž…ë ¥ ë°›ê¸°
 
 	Postorder(1, node_cnt - 1);
 
 	/*
-		(·çÆ® -> ¿ÞÂÊ -> ¿À¸¥ÂÊ)¼ø¼­¸¦ (¿ÞÂÊ -> ¿À¸¥ÂÊ -> ·çÆ®)·Î ¹Ù²Ù±â
+		(ë£¨íŠ¸ -> ì™¼ìª½ -> ì˜¤ë¥¸ìª½)ìˆœì„œë¥¼ (ì™¼ìª½ -> ì˜¤ë¥¸ìª½ -> ë£¨íŠ¸)ë¡œ ë°”ê¾¸ê¸°
 
-		¿ÞÂÊ: ·çÆ®º¸´Ù ÀÛÀº ³ëµåµé
-		¿À¸¥ÂÊ: ·çÆ®º¸´Ù Å« ³ëµåµé
-		·çÆ®: Preorder¿¡¼­ °¡Àå ¸ÕÀú Ãâ·ÂµÇ´Â ³ëµå
+		ì™¼ìª½: ë£¨íŠ¸ë³´ë‹¤ ìž‘ì€ ë…¸ë“œë“¤
+		ì˜¤ë¥¸ìª½: ë£¨íŠ¸ë³´ë‹¤ í° ë…¸ë“œë“¤
+		ë£¨íŠ¸: Preorderì—ì„œ ê°€ìž¥ ë¨¼ì € ì¶œë ¥ë˜ëŠ” ë…¸ë“œ
 
 		=>
-		1. Preorder¿¡¼­ °¡Àå ¸ÕÀú Ãâ·ÂµÇ´Â ³ëµåº¸´Ù ÀÛÀº ³ëµåµé Å½»ö
-		2. Preorder¿¡¼­ °¡Àå ¸ÕÀú Ãâ·ÂµÇ´Â ³ëµåº¸´Ù Å« ³ëµåµé Å½»ö
-		3. ·çÆ® Ãâ·Â
+		1. Preorderì—ì„œ ê°€ìž¥ ë¨¼ì € ì¶œë ¥ë˜ëŠ” ë…¸ë“œë³´ë‹¤ ìž‘ì€ ë…¸ë“œë“¤ íƒìƒ‰
+		2. Preorderì—ì„œ ê°€ìž¥ ë¨¼ì € ì¶œë ¥ë˜ëŠ” ë…¸ë“œë³´ë‹¤ í° ë…¸ë“œë“¤ íƒìƒ‰
+		3. ë£¨íŠ¸ ì¶œë ¥
 	*/
 }
 
 /*
-	ÀÌÁø °Ë»ö Æ®¸® ¸¸µé¾î¼­ Ç®±â
+	ì´ì§„ ê²€ìƒ‰ íŠ¸ë¦¬ ë§Œë“¤ì–´ì„œ í’€ê¸°
 
 	#include <iostream>
 	#include <cstdio>
