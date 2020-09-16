@@ -3,18 +3,31 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
-public class Main {
-	static ArrayList<Integer>[] vertex = new ArrayList[10001];
-	static boolean[] isVisit = new boolean[10001];
-	static int[] cellCnt = new int[10001];
+class Pair {
+	int i;
+	int j;
+	
+	Pair(int i, int j) {
+		this.i = i;
+		this.j = j;
+	}
+	
+	int first() { return i; }
+	int second() { return j; }
+}
 
-	public static void main(String[] args) throws IOException{
+public class Main {
+	static boolean[][] maze = new boolean[101][101];
+	static int[][] isVisit = new int[101][101];
+	static int[][] direction = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};	// 상, 하, 좌, 우
+	static int n, m;
+
+	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 		
@@ -40,56 +53,48 @@ public class Main {
 		*/
 		
 		StringTokenizer st = new StringTokenizer(br.readLine());
-		int n = Integer.parseInt(st.nextToken());
-		int m = Integer.parseInt(st.nextToken());
+		n = Integer.parseInt(st.nextToken());
+		m = Integer.parseInt(st.nextToken());
 		
-		for (int i = 0; i < n * m; ++i)
-			vertex[i] = new ArrayList<>();
-		
-		int[][] maze = new int[n][m];
 		for (int i = 0; i < n; ++i) {
 			String row = br.readLine();
 			
 			for (int j = 0; j < m; ++j)
-				maze[i][j] = row.charAt(j) - '0';
+				if (row.charAt(j) == '1')
+					maze[i][j] = true;
 		}
+		br.close();
 		
-		for (int i = 0; i < n; ++i) {
-			for (int j = 0; j < m; ++j) {
-				if (maze[i][j] == 0) continue;
-				int curr = i * m + j;
-				
-				if (i > 0 && maze[i - 1][j] > 0) vertex[curr].add(curr - m);	// 위
-				if (i < n - 1 && maze[i + 1][j] > 0) vertex[curr].add(curr + m);	// 아래
-				if (j > 0 && maze[i][j - 1] > 0) vertex[curr].add(curr - 1);	// 왼
-				if (j < m - 1 && maze[i][j + 1] > 0) vertex[curr].add(curr + 1);	// 오
-			}
-		}
+		bfs(0, 0);
 		
-		for (int i = 0; i < n * m; ++i)
-			Collections.sort(vertex[i]);
-		
-		bfs(0);	// 첫 정점을 1이 아니라 0으로 설정
-		
-		bw.write(String.valueOf(cellCnt[n * m - 1] + 1));	// 첫 정점의 칸 수가 0이라 +1
+		bw.write(String.valueOf(isVisit[n - 1][m - 1]));
 		bw.flush();
 		bw.close();
 	}
 	
-	static void bfs(int v) {
-		Queue<Integer> queue = new LinkedList<>();
-		queue.offer(v);
-		isVisit[v] = true;
+	static void bfs(int currI, int currJ) {
+		Queue<Pair> queue = new LinkedList<>();
+		queue.offer(new Pair(currI, currJ));
+		isVisit[currI][currJ] = 1;
 		
 		while (!queue.isEmpty()) {
-			int curr = queue.poll();
+			currI = queue.peek().first();
+			currJ = queue.peek().second();
+			queue.poll();
 			
-			for (int next : vertex[curr])
-				if (!isVisit[next]) {
-					queue.offer(next);
-					cellCnt[next] = cellCnt[curr] + 1;	// 다음 방문할 정점은 현재 정점의 다음 칸이므로 현재 칸+1
-					isVisit[next] = true;
+			for (int k = 0; k < 4; ++k) {
+				int nextI = currI + direction[k][0];
+				int nextJ = currJ + direction[k][1];
+				
+				if (nextI < 0 || nextI > n - 1 || nextJ < 0 || nextJ > m - 1)
+					continue;
+				
+				if (maze[nextI][nextJ] && isVisit[nextI][nextJ] == 0) {
+					queue.offer(new Pair(nextI, nextJ));
+					isVisit[nextI][nextJ] = isVisit[currI][currJ] + 1;	// 다음 방문할 정점은 현재 정점의 다음 칸이므로 현재 칸+1
 				}
+			}
 		}
 	}
+	
 }
