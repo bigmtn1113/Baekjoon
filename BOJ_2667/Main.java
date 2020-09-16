@@ -3,58 +3,55 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class Main {
-	static ArrayList<Integer>[] vertex = new ArrayList[26 * 26];
-	static boolean[] isVisit = new boolean[26 * 26];
-	static int cnt = 0;
+class Pair {
+	int i;
+	int j;
 	
-	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-	static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-	public static void main(String[] args) throws IOException{
-		int n = Integer.parseInt(br.readLine());
-		int[][] map = new int[n + 1][n + 1];
+	Pair(int i, int j) {
+		this.i = i;
+		this.j = j;
+	}
+	
+	int first() { return i; }
+	int second() { return j; }
+}
+
+public class Main {
+	static boolean[][] map = new boolean[26][26];
+	static boolean[][] isVisit = new boolean[26][26];
+	static int[][] direction = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};	// ÏÉÅ, Ìïò, Ï¢å, Ïö∞
+	static int cnt = 0;
+	static int n;
+
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 		
-		for (int i = 0; i < n * n; ++i)
-			vertex[i] = new ArrayList<>();
-		
+		n = Integer.parseInt(br.readLine());
 		for (int i = 0; i < n; ++i) {
 			String row = br.readLine();
 			
 			for (int j = 0; j < n; ++j)
-				map[i][j] = row.charAt(j) - '0';
-		}
-		
-		for (int i = 0; i < n; ++i) {
-			for (int j = 0; j < n; ++j) {
-				if (map[i][j] == 0) continue;
-				int curr = i * n + j;
-				
-				if (i > 0 && map[i - 1][j] > 0) vertex[curr].add(curr - n);	// ¿ß
-				if (i < n - 1 && map[i + 1][j] > 0) vertex[curr].add(curr + n);	// æ∆∑°
-				if (j > 0 && map[i][j - 1] > 0) vertex[curr].add(curr - 1);	// øﬁ
-				if (j < n - 1 && map[i][j + 1] > 0) vertex[curr].add(curr + 1);	// ø¿
-			}
+				if (row.charAt(j) == '1')
+					map[i][j] = true;
 		}
 		br.close();
 		
 		int[] houseCnt = new int[26 * 26];
 		int complexCnt = 0;
-		for (int i = 0; i < n; ++i) {
-			for (int j = 0; j < n; ++j) {
-				if (map[i][j] > 0 && !isVisit[i * n + j]) {
-					dfs(i * n + j);
-					//bfs(i * n + j);
+		for (int i = 0; i < n; ++i)
+			for (int j = 0; j < n; ++j)
+				if (map[i][j] && !isVisit[i][j]) {
+					dfs(i, j);
+					//bfs(i, j);
 					
 					houseCnt[complexCnt++] = cnt;
 					cnt = 0;
 				}
-			}
-		}
 		
 		Arrays.sort(houseCnt, 0, complexCnt);
 		
@@ -62,36 +59,53 @@ public class Main {
 		for (int i = 0; i < complexCnt; ++i)
 			bw.write(houseCnt[i] + "\n");
 		
+		br.close();
 		bw.flush();
 		bw.close();
 	}
-	
-	static void dfs(int v) throws IOException {
-		if (isVisit[v]) return;
+
+	static void dfs(int currI, int currJ) {
+		if (isVisit[currI][currJ]) return;
 		
-		isVisit[v] = true;
+		isVisit[currI][currJ] = true;
 		++cnt;
 		
-		for (int i : vertex[v])
-			if (!isVisit[i])
-				dfs(i);
+		for (int k = 0; k < 4; ++k) {
+			int nextI = currI + direction[k][0];
+			int nextJ = currJ + direction[k][1];
+			
+			if (nextI < 0 || nextI > n - 1 || nextJ < 0 || nextJ > n - 1)
+				continue;
+			
+			if (map[nextI][nextJ] && !isVisit[nextI][nextJ])
+				dfs(nextI, nextJ);
+		}
 	}
 	
-	static void bfs(int v) throws IOException{		
-		Queue<Integer> queue = new LinkedList<>();
-		queue.offer(v);
-		isVisit[v] = true;
+	static void bfs(int currI, int currJ) {
+		Queue<Pair> queue = new LinkedList<>();
+		queue.offer(new Pair(currI, currJ));
+		isVisit[currI][currJ] = true;
 		
 		while (!queue.isEmpty()) {
-			int curr = queue.poll();
+			currI = queue.peek().first();
+			currJ = queue.peek().second();
+			queue.poll();
 			++cnt;
 			
-			for (int i : vertex[curr]) {
-				if (!isVisit[i]) {
-					queue.offer(i);
-					isVisit[i] = true;
+			for (int k = 0; k < 4; ++k) {
+				int nextI = currI + direction[k][0];
+				int nextJ = currJ + direction[k][1];
+				
+				if (nextI < 0 || nextI > n - 1 || nextJ < 0 || nextJ > n - 1)
+					continue;
+				
+				if (map[nextI][nextJ] && !isVisit[nextI][nextJ]) {
+					queue.offer(new Pair(nextI, nextJ));
+					isVisit[nextI][nextJ] = true;
 				}
 			}
 		}
 	}
+	
 }
