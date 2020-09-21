@@ -28,7 +28,7 @@ public class Main {
 		// 7	->	max_heap = { 2, 1, -99 }, min_heap = { 5, 7, 10 }	->	2
 		// 5	->	max_heap = { 5, 2, -99, 1 }, min_heap = { 5, 7, 10 }	->	5
 		// 4	->	max_heap = { 5, 2, -99, 1 }, min_heap = { 4, 5, 7, 10 }
-		//		->	max_heap = { 4, 2, -99, 1 }, min_heap = { 5, 5, 7, 10 }	->	4
+		//	->	max_heap = { 4, 2, -99, 1 }, min_heap = { 5, 5, 7, 10 }	->	4
 		
 		int n = Integer.parseInt(br.readLine());
 		
