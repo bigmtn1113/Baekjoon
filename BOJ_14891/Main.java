@@ -42,39 +42,25 @@ public class Main {
 				if (gear[1][2] != gear[2][6]) {
 					if (gear[2][2] != gear[3][6]) {
 						if (gear[3][2] != gear[4][6]) {
-							if (direction == 1) {
-								rotate(gear[1], 1);
-								rotate(gear[2], -1);
-								rotate(gear[3], 1);
-								rotate(gear[4], -1);
-							} else {
-								rotate(gear[1], -1);
-								rotate(gear[2], 1);
-								rotate(gear[3], -1);
-								rotate(gear[4], 1);
-							}
-						} else {
-							rotate(gear[1], direction);
-							rotate(gear[2], (direction == 1) ? -1 : 1);
-							rotate(gear[3], direction);
+							rotate(gear[4], (direction == 1) ? -1 : 1);
 						}
-					} else {
-						rotate(gear[1], direction);
-						rotate(gear[2], (direction == 1) ? -1 : 1);
+						
+						rotate(gear[3], direction);
 					}
-				} else {
-					rotate(gear[1], direction);
+					
+					rotate(gear[2], (direction == 1) ? -1 : 1);
 				}
+				
+				rotate(gear[1], direction);
 				break;
 				
 			case 2:
 				if (gear[2][2] != gear[3][6]) {
 					if (gear[3][2] != gear[4][6]) {
-						rotate(gear[3], (direction == 1) ? -1 : 1);
 						rotate(gear[4], direction);
-					} else {
-						rotate(gear[3], (direction == 1) ? -1 : 1);
 					}
+					
+					rotate(gear[3], (direction == 1) ? -1 : 1);
 				}
 				
 				if (gear[2][6] != gear[1][2]) {
@@ -91,11 +77,10 @@ public class Main {
 				
 				if (gear[3][6] != gear[2][2]) {
 					if (gear[2][6] != gear[1][2]) {
-						rotate(gear[2], (direction == 1) ? -1 : 1);
 						rotate(gear[1], direction);
-					} else {
-						rotate(gear[2], (direction == 1) ? -1 : 1);
 					}
+					
+					rotate(gear[2], (direction == 1) ? -1 : 1);
 				}
 				
 				rotate(gear[3], direction);
@@ -105,29 +90,16 @@ public class Main {
 				if (gear[4][6] != gear[3][2]) {
 					if (gear[3][6] != gear[2][2]) {
 						if (gear[2][6] != gear[1][2]) {
-							if (direction == 1) {
-								rotate(gear[4], 1);
-								rotate(gear[3], -1);
-								rotate(gear[2], 1);
-								rotate(gear[1], -1);
-							} else {
-								rotate(gear[4], -1);
-								rotate(gear[3], 1);
-								rotate(gear[2], -1);
-								rotate(gear[1], 1);
-							}
-						} else {
-							rotate(gear[4], direction);
-							rotate(gear[3], (direction == 1) ? -1 : 1);
-							rotate(gear[2], direction);
+							rotate(gear[1], (direction == 1) ? -1 : 1);
 						}
-					} else {
-						rotate(gear[4], direction);
-						rotate(gear[3], (direction == 1) ? -1 : 1);
+						
+						rotate(gear[2], direction);
 					}
-				} else {
-					rotate(gear[4], direction);
+					
+					rotate(gear[3], (direction == 1) ? -1 : 1);
 				}
+				
+				rotate(gear[4], direction);
 				break;
 			}
 		}
